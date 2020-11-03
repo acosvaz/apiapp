@@ -34,4 +34,15 @@ class Auth extends REST_Controller {
             $this->set_response($invalidLogin, REST_Controller::HTTP_NOT_FOUND);
         }
     }
+
+      public function registro_post()
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+        
+        $input = $this->input->post();
+        $this->db->insert('usuarios',$input);
+     
+        $this->response(['Usuario creado'], REST_Controller::HTTP_OK);
+    } 
 }

@@ -7,8 +7,8 @@ class Loginapi_model extends CI_Model {
     }
     
     public function login($username, $password) {
-                $this->db->where('usuario',$username);
-                $this->db->where('contrasena',$password);
+                $this->db->where('username',$username);
+                $this->db->where('password',$password);
 		$query = $this->db->get('usuarios');
         if ($query->num_rows() == 1) {
             $result = $query->result();
@@ -19,13 +19,13 @@ class Loginapi_model extends CI_Model {
     }
     
     public function rol($id) {
-                $this->db->select('tipo');
+                $this->db->select('tipo_user');
                 $this->db->from('usuarios');
                 $this->db->where('id',$id);
 		$query = $this->db->get();
         if ($query->num_rows() == 1) {
             $result = $query->result();
-            return $result[0]->tipo;
+            return $result[0]->tipo_user;
             //return $query->row();
         }
         return false;
