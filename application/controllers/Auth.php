@@ -26,7 +26,8 @@ class Auth extends REST_Controller {
             
             $valid = array ('id' => $id,
                             'username' => $username,
-                            'rol' => $nu_rol);
+                            'rol' => $nu_rol,
+                        	'token' => $token = bin2hex(random_bytes(24)));
             
             $this->set_response($valid, REST_Controller::HTTP_OK);
         }
