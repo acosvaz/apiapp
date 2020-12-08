@@ -30,7 +30,7 @@ class Auth extends REST_Controller {
             $valid = array ('id' => $id,
                             'username' => $username,
                             'rol' => $nu_rol,
-                        	'token' => $token = bin2hex(random_bytes(24)));
+                        	'token' => $token = bin2hex(random_bytes(8)));
             
             $this->set_response($valid, REST_Controller::HTTP_OK);
         }
@@ -48,6 +48,33 @@ class Auth extends REST_Controller {
         $this->db->insert('usuarios',$input);
      
         $this->response(['Usuario creado'], REST_Controller::HTTP_OK);
+    } 
+
+      public function insertcurso_post()
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $maestro_id = $this->post('maestro_id');
+        $nombre_curso = $this->post('nombre_curso');
+        
+        $valid = array ('maestro_id' => $maestro_id,
+                        'nombre_curso' => $nombre_curso,
+                        'clave_curso' => $token = bin2hex(random_bytes(3)));
+
+        $this->db->insert('cursos',$valid);
+     
+        $this->response(['Curso creado'], REST_Controller::HTTP_OK);
+    }
+
+   public function curso_get($id){
+        $data = $this->db->get_where("cursos", ['maestro_id' => $id])->result();
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+   public function borrar_delete($id){
+        $this->db->delete("cursos", array('id' => $id));
+        $this->response(['Curso deleted successfully.'], REST_Controller::HTTP_OK);
     } 
 
        
@@ -93,7 +120,7 @@ class Auth extends REST_Controller {
                 
                 //subir el archivo y capturar el post
                 if($this->upload->do_upload('file')) {
-                                    //
+                                    
                                          $problema = $this->input->post('problema');
                                          $imagen = 'http://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
                                          $audio = 'http://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
