@@ -39,7 +39,7 @@ class Auth extends REST_Controller {
         }
     }
 
-      public function registro_post()
+/*      public function registro_post()
     {
         header("Access-Control-Allow-Origin: *");
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
@@ -48,7 +48,7 @@ class Auth extends REST_Controller {
         $this->db->insert('usuarios',$input);
      
         $this->response(['Usuario creado'], REST_Controller::HTTP_OK);
-    } 
+    } */
 
       public function insertcurso_post()
     {
@@ -79,7 +79,6 @@ class Auth extends REST_Controller {
 
        
        function upload_post() {
-       // Acceso a las cabeceras
            header("Access-Control-Allow-Origin: *");
        //   $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
            header('Access-Control-Allow-Methods: POST');
@@ -111,8 +110,8 @@ class Auth extends REST_Controller {
             //si la carpeta exite nos mandara a decir que ya se encuentra.
             //en caso de que no exista la crea
             if (file_exists($upload_path . $_FILES['file']['name'])) {
-                $this->response('El archivo ya existe => ' . $upload_path . $_FILES['file']['name']);
-                return;
+                $archivo = $this->response('El archivo ya existe => ' . $upload_path . $_FILES['file']['name']);
+                return $archivo;
             } else {
                 if (!file_exists($upload_path)) {
                     mkdir($upload_path, 0777, true);
@@ -122,8 +121,8 @@ class Auth extends REST_Controller {
                 if($this->upload->do_upload('file')) {
                                     
                                          $problema = $this->input->post('problema');
-                                         $imagen = 'http://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
-                                         $audio = 'http://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
+                                         $imagen = 'https://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
+                                         $audio = 'https://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
                                          $ejercicio_id = $this->input->post('ejercicio_id');
 
 

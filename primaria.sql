@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 10-11-2020 a las 17:51:26
+-- Tiempo de generación: 23-12-2020 a las 00:48:26
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -34,6 +34,15 @@ CREATE TABLE `cursos` (
   `nombre_curso` varchar(100) NOT NULL,
   `clave_curso` varchar(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `cursos`
+--
+
+INSERT INTO `cursos` (`id`, `maestro_id`, `nombre_curso`, `clave_curso`) VALUES
+(13, 1, 'Lengua Materna', '8c52dba83659756d'),
+(14, 1, 'Ciencias Naturales', '47270473a5bfc9fa'),
+(16, 1, 'Ciencias Naturales', '4085a9');
 
 -- --------------------------------------------------------
 
@@ -73,7 +82,7 @@ CREATE TABLE `ejercicio_contenidos` (
   `problema` varchar(250) NOT NULL,
   `imagen` varchar(250) NOT NULL,
   `audio` varchar(250) NOT NULL,
-  `ejercicio_id` bigint(20) NOT NULL,
+  `ejercicio_id` varchar(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
@@ -157,8 +166,7 @@ ALTER TABLE `ejercicios`
 -- Indices de la tabla `ejercicio_contenidos`
 --
 ALTER TABLE `ejercicio_contenidos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `ejercicio_id` (`ejercicio_id`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indices de la tabla `ejercicio_respuestas`
@@ -189,7 +197,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
 
 --
 -- AUTO_INCREMENT de la tabla `curso_alumnos`
@@ -236,12 +244,6 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ejercicios`
   ADD CONSTRAINT `ejercicios_ibfk_1` FOREIGN KEY (`curso_id`) REFERENCES `cursos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
-
---
--- Filtros para la tabla `ejercicio_contenidos`
---
-ALTER TABLE `ejercicio_contenidos`
-  ADD CONSTRAINT `ejercicio_contenidos_ibfk_1` FOREIGN KEY (`ejercicio_id`) REFERENCES `ejercicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ejercicio_respuestas`
