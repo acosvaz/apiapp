@@ -39,7 +39,7 @@ class Auth extends REST_Controller {
         }
     }
 
-/*      public function registro_post()
+      public function registro_post()
     {
         header("Access-Control-Allow-Origin: *");
         $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
@@ -48,7 +48,7 @@ class Auth extends REST_Controller {
         $this->db->insert('usuarios',$input);
      
         $this->response(['Usuario creado'], REST_Controller::HTTP_OK);
-    } */
+    }
 
       public function insertcurso_post()
     {
