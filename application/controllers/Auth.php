@@ -50,6 +50,11 @@ class Auth extends REST_Controller {
         $this->response(['Usuario creado'], REST_Controller::HTTP_OK);
     }
 
+   public function ejercicio_get($id){
+        $data = $this->db->get_where("ejercicios", ['curso_id' => $id])->result();
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
       public function insertcurso_post()
     {
         header("Access-Control-Allow-Origin: *");
@@ -67,16 +72,56 @@ class Auth extends REST_Controller {
         $this->response(['Curso creado'], REST_Controller::HTTP_OK);
     }
 
+      public function insertejercicio_post($id)
+    {
+        header("Access-Control-Allow-Origin: *");
+        $_POST = json_decode($this->security->xss_clean(file_get_contents("php://input")),true);
+
+        $ejercicio = $this->post('ejercicio');
+        
+        $valid = array ('curso_id' => $id,
+                        'ejercicio' => $ejercicio);
+
+        $this->db->insert('ejercicios',$valid);
+     
+        $this->response(['Ejercicio Creado'], REST_Controller::HTTP_OK);
+    }
+
    public function curso_get($id){
         $data = $this->db->get_where("cursos", ['maestro_id' => $id])->result();
         $this->response($data, REST_Controller::HTTP_OK);
     }
 
+   public function contenido_get($id){
+        $data = $this->db->get_where("ejercicio_contenidos", ['ejercicio_id' => $id])->result();
+        $this->response($data, REST_Controller::HTTP_OK);
+    }
+
+    public function contenidoo_get($id){
+
+        $catalogo = $this->Loginapi_model->ejrcontenido($id);
+        
+        if(!is_null($catalogo)){
+            $this->response($catalogo, 200);
+        } else {
+            $this->response(array('error' => 'No hay promociones disponibles'), 404);
+        }
+    }
+
    public function borrar_delete($id){
         $this->db->delete("cursos", array('id' => $id));
         $this->response(['Curso deleted successfully.'], REST_Controller::HTTP_OK);
+    }
+
+  public function borrarejr_delete($id){
+        $this->db->delete("ejercicios", array('id' => $id));
+        $this->response(['Curso deleted successfully.'], REST_Controller::HTTP_OK);
     } 
 
+  public function borrarcont_delete($id){
+        $this->db->delete("ejercicio_contenidos", array('id' => $id));
+        $this->response(['Curso deleted successfully.'], REST_Controller::HTTP_OK);
+    } 
        
        function upload_post() {
            header("Access-Control-Allow-Origin: *");
@@ -93,7 +138,7 @@ class Auth extends REST_Controller {
             }
             
             //ruta de la carpeta en donde se van a suibr los archivos
-            $upload_path = '/uploads/';
+            $upload_path = 'uploads/';
             //ruta destino
             $config['upload_path'] = $upload_path;
             //se permite todo tipo de archivo (imagen y audios)
@@ -122,7 +167,6 @@ class Auth extends REST_Controller {
                                     
                                          $problema = $this->input->post('problema');
                                          $imagen = 'https://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
-                                         $audio = 'https://' . $_SERVER['SERVER_NAME'] . $upload_path . $_FILES['file']['name'];
                                          $ejercicio_id = $this->input->post('ejercicio_id');
 
 
@@ -130,7 +174,6 @@ class Auth extends REST_Controller {
                                          $data = array (
                                                 'problema'=>$problema,
                                                 'imagen'=>$imagen,
-                                                'audio'=>$audio,
                                                 'ejercicio_id'=>$ejercicio_id
                                             );
                                          //insertar datos en la base

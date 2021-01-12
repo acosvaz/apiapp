@@ -30,4 +30,24 @@ class Loginapi_model extends CI_Model {
         }
         return false;
     }
+
+    public function ejrcontenido ($id = null) {
+        
+        if(!is_null($id)){
+            $this->db->select('ec.id, ec.problema, ec.ejercicio_id, e.ejercicio');
+            $this->db->from('ejercicio_contenidos as ec');
+            $this->db->join('ejercicios as e', 'ec.ejercicio_id=e.id');
+            $this->db->where('ec.ejercicio_id', $id);
+            $query = $this->db->get();
+            
+            if ($query->num_rows() > 0){
+            return $query->result_array();
+            
+            }
+            
+        }
+      
+      
+    }
+
 }
