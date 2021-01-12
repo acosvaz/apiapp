@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 23-12-2020 a las 00:48:26
+-- Tiempo de generación: 12-01-2021 a las 20:23:55
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -40,9 +40,7 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id`, `maestro_id`, `nombre_curso`, `clave_curso`) VALUES
-(13, 1, 'Lengua Materna', '8c52dba83659756d'),
-(14, 1, 'Ciencias Naturales', '47270473a5bfc9fa'),
-(16, 1, 'Ciencias Naturales', '4085a9');
+(18, 1, 'Lengua Materna', 'a4eade');
 
 -- --------------------------------------------------------
 
@@ -68,8 +66,16 @@ CREATE TABLE `curso_alumnos` (
 CREATE TABLE `ejercicios` (
   `id` bigint(20) NOT NULL,
   `curso_id` bigint(20) NOT NULL,
-  `ejercicio` int(11) NOT NULL
+  `ejercicio` varchar(250) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ejercicios`
+--
+
+INSERT INTO `ejercicios` (`id`, `curso_id`, `ejercicio`) VALUES
+(16, 18, 'Selecciona la palabra'),
+(20, 18, 'Lee correctamente');
 
 -- --------------------------------------------------------
 
@@ -80,12 +86,19 @@ CREATE TABLE `ejercicios` (
 CREATE TABLE `ejercicio_contenidos` (
   `id` bigint(20) NOT NULL,
   `problema` varchar(250) NOT NULL,
-  `imagen` varchar(250) NOT NULL,
-  `audio` varchar(250) NOT NULL,
-  `ejercicio_id` varchar(20) NOT NULL,
+  `imagen` varchar(250) DEFAULT NULL,
+  `audio` varchar(255) DEFAULT NULL,
+  `ejercicio_id` bigint(20) NOT NULL,
   `created_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+  `updated_at` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ejercicio_contenidos`
+--
+
+INSERT INTO `ejercicio_contenidos` (`id`, `problema`, `imagen`, `audio`, `ejercicio_id`, `created_at`, `updated_at`) VALUES
+(1, '1', 'mgjk', 'hjk', 16, '2021-01-09 18:52:49', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -135,9 +148,7 @@ CREATE TABLE `usuarios` (
 
 INSERT INTO `usuarios` (`id`, `nombre`, `username`, `password`, `tipo_user`) VALUES
 (1, 'claudia', 'claudia', 'claudia', 'admin'),
-(2, 'xiomara', 'xiomara', 'xiomara', 'user'),
-(3, 'Xiomara AA', 'AA', 'AA', 'USER'),
-(4, 'xi', 'xi', 'xi', 'user');
+(2, 'xiomara', 'xiomara', 'xiomara', 'user');
 
 --
 -- Índices para tablas volcadas
@@ -166,7 +177,8 @@ ALTER TABLE `ejercicios`
 -- Indices de la tabla `ejercicio_contenidos`
 --
 ALTER TABLE `ejercicio_contenidos`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `ejercicio_id` (`ejercicio_id`);
 
 --
 -- Indices de la tabla `ejercicio_respuestas`
@@ -197,7 +209,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT de la tabla `curso_alumnos`
@@ -209,13 +221,13 @@ ALTER TABLE `curso_alumnos`
 -- AUTO_INCREMENT de la tabla `ejercicios`
 --
 ALTER TABLE `ejercicios`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `ejercicio_contenidos`
 --
 ALTER TABLE `ejercicio_contenidos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de la tabla `ejercicio_respuestas`
@@ -233,7 +245,7 @@ ALTER TABLE `resultados`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- Restricciones para tablas volcadas
@@ -244,6 +256,12 @@ ALTER TABLE `usuarios`
 --
 ALTER TABLE `ejercicios`
   ADD CONSTRAINT `ejercicios_ibfk_1` FOREIGN KEY (`curso_id`) REFERENCES `cursos` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Filtros para la tabla `ejercicio_contenidos`
+--
+ALTER TABLE `ejercicio_contenidos`
+  ADD CONSTRAINT `ejercicio_contenidos_ibfk_1` FOREIGN KEY (`ejercicio_id`) REFERENCES `ejercicios` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Filtros para la tabla `ejercicio_respuestas`
