@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 12-01-2021 a las 20:23:55
+-- Tiempo de generación: 19-01-2021 a las 09:33:21
 -- Versión del servidor: 10.1.26-MariaDB
 -- Versión de PHP: 7.1.9
 
@@ -40,7 +40,8 @@ CREATE TABLE `cursos` (
 --
 
 INSERT INTO `cursos` (`id`, `maestro_id`, `nombre_curso`, `clave_curso`) VALUES
-(18, 1, 'Lengua Materna', 'a4eade');
+(19, 1, 'Lengua Materna', '6094d3'),
+(20, 1, 'Ciencias Naturales', 'f6021b');
 
 -- --------------------------------------------------------
 
@@ -74,8 +75,9 @@ CREATE TABLE `ejercicios` (
 --
 
 INSERT INTO `ejercicios` (`id`, `curso_id`, `ejercicio`) VALUES
-(16, 18, 'Selecciona la palabra'),
-(20, 18, 'Lee correctamente');
+(23, 19, 'Replica la palabra'),
+(24, 19, 'Selecciona la palabra'),
+(25, 20, 'Replica la palabra');
 
 -- --------------------------------------------------------
 
@@ -98,7 +100,7 @@ CREATE TABLE `ejercicio_contenidos` (
 --
 
 INSERT INTO `ejercicio_contenidos` (`id`, `problema`, `imagen`, `audio`, `ejercicio_id`, `created_at`, `updated_at`) VALUES
-(1, '1', 'mgjk', 'hjk', 16, '2021-01-09 18:52:49', '0000-00-00 00:00:00');
+(10, '1', 'http://localhost/apiapp/uploads/imagen1.jpg', NULL, 23, '2021-01-19 08:29:01', '0000-00-00 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -109,10 +111,17 @@ INSERT INTO `ejercicio_contenidos` (`id`, `problema`, `imagen`, `audio`, `ejerci
 CREATE TABLE `ejercicio_respuestas` (
   `id` bigint(20) NOT NULL,
   `respuesta` varchar(255) NOT NULL,
-  `short` int(50) NOT NULL,
+  `short` varchar(50) DEFAULT NULL,
   `nu_pregunta` bigint(20) NOT NULL,
-  `valor` int(11) NOT NULL
+  `valor` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Volcado de datos para la tabla `ejercicio_respuestas`
+--
+
+INSERT INTO `ejercicio_respuestas` (`id`, `respuesta`, `short`, `nu_pregunta`, `valor`) VALUES
+(13, 'Dado', NULL, 10, NULL);
 
 -- --------------------------------------------------------
 
@@ -209,7 +218,7 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de la tabla `cursos`
 --
 ALTER TABLE `cursos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de la tabla `curso_alumnos`
@@ -221,19 +230,19 @@ ALTER TABLE `curso_alumnos`
 -- AUTO_INCREMENT de la tabla `ejercicios`
 --
 ALTER TABLE `ejercicios`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=26;
 
 --
 -- AUTO_INCREMENT de la tabla `ejercicio_contenidos`
 --
 ALTER TABLE `ejercicio_contenidos`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- AUTO_INCREMENT de la tabla `ejercicio_respuestas`
 --
 ALTER TABLE `ejercicio_respuestas`
-  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de la tabla `resultados`
